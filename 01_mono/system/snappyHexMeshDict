@@ -1,0 +1,156 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM v2512                                  |
+|  \\    /   O peration     | Case: Monobobsleights                           |
+|   \\  /    A nd           | Author: Diep Thanh Phuong                       |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+  version          2.0;
+  format           ascii;
+  class            dictionary;
+  object           snappyHexMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+castellatedMesh    true;
+snap               true;
+addLayers          true;
+
+geometry
+{
+  monobob.stl
+  {
+    type triSurfaceMesh;
+    name monobob;
+  }
+
+  refinementBox
+  {
+    type box;
+    min  (-1.5 -4.3 -0.05);
+    max  (+1.5 +4.3 +7.50);
+  }
+
+  wakeBox
+  {
+    type box;
+    min  (-0.5 -2.5 0.0);
+    max  (20.0  2.5 3.0);
+  }
+}
+
+castellatedMeshControls
+{
+  maxLocalCells       100000;
+  maxGlobalCells      1000000;
+  minRefinementCells  10;
+  maxLoadUnbalance    0.10;
+  nCellsBetweenLevels 3;
+
+  features
+  (
+    {
+      file "monobob.eMesh";
+      level 6;
+    }
+  );
+
+  refinementSurfaces
+  {
+    monobob
+    {
+      level (5 6);
+      patchInfo
+      {
+        type wall;
+        inGroups (monobobGroup);
+      }
+    }
+  }
+
+  resolveFeatureAngle 15;
+
+  refinementRegions
+  {
+    refinementBox
+    {
+      mode    inside;
+      levels  ((1E15 4));
+    }
+    wakeBox
+    {
+      mode    inside;
+      levels  ((1E15 3));
+    }
+  }
+
+  locationInMesh (3.0001 3.0001 0.43);
+
+  allowFreeStandingZoneFaces true;
+}
+
+snapControls
+{
+  nSmoothPatch           10;
+  tolerance              2.0;
+  nSolveIter             50;
+  nRelaxIter             8;
+  nFeatureSnapIter       10;
+  implicitFeatureSnap    false;
+  explicitFeatureSnap    true;
+  multiRegionFeatureSnap false;
+}
+
+addLayersControls
+{
+  relativeSizes true;
+
+  layers
+  {
+    "monobob.*"
+    {
+      nSurfaceLayers 6;
+    }
+    "bottom.*"
+    {
+      nSurfaceLayers 5;
+    }
+  }
+
+  expansionRatio            1.1;
+  finalLayerThickness       0.1;
+  minThickness              0.1;
+  nGrow                     0;
+  featureAngle              60;
+  slipFeatureAngle          30;
+  nRelaxIter                3;
+  nSmoothSurfaceNormals     1;
+  nSmoothNormals            3;
+  nSmoothThickness          10;
+  maxFaceThicknessRatio     0.5;
+  maxThicknessToMedialRatio 0.3;
+  minMedialAxisAngle        90;
+  nBufferCellsNoExtrude     0;
+  nLayerIter                50;
+}
+
+meshQualityControls
+{
+  #include "meshQualityDict"
+  nSmoothScale 4;
+  errorReduction 0.75;
+}
+
+writeFlags
+(
+  scalarLevels
+  layerSets
+  layerFields
+);
+
+mergeTolerance 1e-6;
+
+
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
