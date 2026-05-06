@@ -26,18 +26,41 @@ geometry
     name monobob;
   }
 
-  refinementBox
+  box1
   {
-    type box;
-    min  (-1.5 -4.3 -0.05);
-    max  (+1.5 +4.3 +7.50);
+    type searchableBox;
+    min  (0.4  0.15 -0.2);
+    max  (1.35 0.45  0.3);
   }
-
-  wakeBox
+  box2
   {
-    type box;
-    min  (-0.5 -2.5 0.0);
-    max  (20.0  2.5 3.0);
+    type searchableBox;
+    min  (0.4  -0.45 -0.2);
+    max  (1.35 -0.15  0.3);
+  }
+  box3
+  {
+    type searchableBox;
+    min  (1.2  0.15 0.5);
+    max  (1.45 0.35 0.8);
+  }
+  box4
+  {
+    type searchableBox;
+    min  (1.2  -0.35 0.5);
+    max  (1.45 -0.15 0.8);
+  }
+  box5
+  {
+    type searchableBox;
+    min  (-1.5 -0.45 -0.2);
+    max  (-0.4  0.45 0.35);
+  }
+  boxbot
+  {
+    type searchableBox;
+    min  (-5 -2.5 -0.05);
+    max  (20  2.5   0.1);
   }
 }
 
@@ -47,7 +70,7 @@ castellatedMeshControls
   maxGlobalCells      1000000;
   minRefinementCells  10;
   maxLoadUnbalance    0.10;
-  nCellsBetweenLevels 3;
+  nCellsBetweenLevels 5;
 
   features
   (
@@ -61,7 +84,7 @@ castellatedMeshControls
   {
     monobob
     {
-      level (5 6);
+      level (6 7);
       patchInfo
       {
         type wall;
@@ -70,20 +93,16 @@ castellatedMeshControls
     }
   }
 
-  resolveFeatureAngle 15;
+  resolveFeatureAngle 20;
 
   refinementRegions
   {
-    refinementBox
-    {
-      mode    inside;
-      levels  ((1E15 4));
-    }
-    wakeBox
-    {
-      mode    inside;
-      levels  ((1E15 3));
-    }
+    box1   { mode inside; levels ((1E15 6)); }
+    box2   { mode inside; levels ((1E15 6)); }
+    box3   { mode inside; levels ((1E15 5)); }
+    box4   { mode inside; levels ((1E15 5)); }
+    box5   { mode inside; levels ((1E15 6)); }
+    boxbot { mode inside; levels ((1E15 6)); }
   }
 
   locationInMesh (3.0001 3.0001 0.43);
@@ -113,15 +132,11 @@ addLayersControls
     {
       nSurfaceLayers 6;
     }
-    "bottom.*"
-    {
-      nSurfaceLayers 5;
-    }
   }
 
-  expansionRatio            1.1;
-  finalLayerThickness       0.1;
-  minThickness              0.1;
+  expansionRatio            1.2;
+  firstLayerThickness       0.0015;
+  minThickness              0.0005;
   nGrow                     0;
   featureAngle              60;
   slipFeatureAngle          30;
