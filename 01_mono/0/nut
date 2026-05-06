@@ -39,16 +39,12 @@ boundaryField
     type           nutUSpaldingWallFunction;
     value          uniform 0;
   }
-  left
+  "(front|back)"
   {
     type           calculated;
     value          uniform 0;
   }
-  right
-  {
-    type           calculated;
-    value          uniform 0;
-  }
+
   monobobGroup
   {
     type           nutUSpaldingWallFunction;

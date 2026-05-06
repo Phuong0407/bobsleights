@@ -14,48 +14,43 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions         [0 1 -1 0 0 0 0];
+dimensions          [0 1 -1 0 0 0 0];
 
-internalField      uniform (30 0 0);
+internalField       uniform (13.889 0 0);
 
 boundaryField
 {
   inlet
   {
-    type           fixedValue;
-    value          uniform (30 0 0);
+    type            fixedValue;
+    value           uniform (13.889 0 0);
   }
   outlet
   {
     type            freestreamVelocity;
-    freestreamValue uniform (30 0 0);
-    value           uniform (30 0 0);
+    freestreamValue uniform (13.889 0 0);
+    value           uniform (13.889 0 0);
   }
   top
   {
     type            freestreamVelocity;
-    freestreamValue uniform (30 0 0);
-    value           uniform (30 0 0);
+    freestreamValue uniform (13.889 0 0);
+    value           uniform (13.889 0 0);
   }
   bottom
   {
-    type           movingWallVelocity;
-    value          uniform (30 0 0);
+    type            movingWallVelocity;
+    value           uniform (13.889 0 0);
   }
-  left
+  "(front|back)"
   {
     type            freestreamVelocity;
-    freestreamValue uniform (30 0 0);
-    value           uniform (30 0 0);
+    freestreamValue uniform (13.889 0 0);
+    value           uniform (13.889 0 0);
   }
-  right
-  {
-    type            freestreamVelocity;
-    freestreamValue uniform (30 0 0);
-    value           uniform (30 0 0);
-  }
+
   monobobGroup
   {
-    type           noSlip;
+    type            noSlip;
   }
 }
