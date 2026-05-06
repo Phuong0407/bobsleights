@@ -1,0 +1,13 @@
+blockMesh
+
+decomposePar
+
+mpirun -np 16 snappyHexMesh -parallel -overwrite
+
+reconstructParMesh -constant
+
+checkMesh
+
+foamToVTK -faceSet skewFaces
+
+

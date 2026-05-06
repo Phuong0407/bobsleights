@@ -1,0 +1,9 @@
+#!/bin/bash
+
+rm -rf constant/polyMesh
+rm -rf constant/extendedFeatureEdgeMesh
+rm -rf constant/triSurface/*.eMesh*
+
+rm -rf postProcessing
+rm -rf processor*
+rm -rf VTK
