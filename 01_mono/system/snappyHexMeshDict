@@ -73,17 +73,17 @@ geometry
 
 castellatedMeshControls
 {
-  maxLocalCells       100000;
-  maxGlobalCells      1000000;
+  maxLocalCells       1000000;
+  maxGlobalCells      10000000;
   minRefinementCells  10;
   maxLoadUnbalance    0.10;
-  nCellsBetweenLevels 8;
+  nCellsBetweenLevels 5;
 
   features
   (
     {
       file "monobob.eMesh";
-      level 6;
+      level 5;
     }
   );
 
@@ -91,7 +91,7 @@ castellatedMeshControls
   {
     monobob
     {
-      level (6 7);
+      level (5 6);
       patchInfo
       {
         type wall;
@@ -109,7 +109,7 @@ castellatedMeshControls
     box3   { mode inside; levels ((1E15 4)); }
     box4   { mode inside; levels ((1E15 4)); }
     box5   { mode inside; levels ((1E15 5)); }
-    boxbot { mode inside; levels ((1E15 5)); }
+    boxbot { mode inside; levels ((1E15 4)); }
 
     badregion { mode inside; levels ((1e15 6)); }
   }
@@ -139,7 +139,7 @@ addLayersControls
   {
     "monobob.*"
     {
-      nSurfaceLayers        6;
+      nSurfaceLayers        4;
     }
   }
 
@@ -147,7 +147,7 @@ addLayersControls
   firstLayerThickness       0.0015;
   minThickness              0.0005;
   nGrow                     2;
-  featureAngle              40;
+  featureAngle              45;
   slipFeatureAngle          30;
   nRelaxIter                8;
   nSmoothSurfaceNormals     5;
