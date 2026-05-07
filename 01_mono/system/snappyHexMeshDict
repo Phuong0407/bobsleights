@@ -16,7 +16,7 @@ FoamFile
 
 castellatedMesh    true;
 snap               true;
-addLayers          true;
+addLayers          false;
 
 geometry
 {
@@ -67,23 +67,23 @@ geometry
   {
     type searchableBox;
     min  (0.2 -0.3 0.2);
-    max  (0.8  0.3 0.6);
+    max  (0.4  0.2 0.5);
   }
 }
 
 castellatedMeshControls
 {
-  maxLocalCells       1000000;
-  maxGlobalCells      10000000;
+  maxLocalCells       10000000;
+  maxGlobalCells      100000000;
   minRefinementCells  10;
   maxLoadUnbalance    0.10;
-  nCellsBetweenLevels 5;
+  nCellsBetweenLevels 7;
 
   features
   (
     {
       file "monobob.eMesh";
-      level 5;
+      level 6;
     }
   );
 
@@ -91,7 +91,7 @@ castellatedMeshControls
   {
     monobob
     {
-      level (5 6);
+      level (6 6);
       patchInfo
       {
         type wall;
@@ -121,7 +121,7 @@ castellatedMeshControls
 
 snapControls
 {
-  nSmoothPatch           10;
+  nSmoothPatch           8;
   tolerance              1.0;
   nSolveIter             50;
   nRelaxIter             8;
@@ -139,7 +139,7 @@ addLayersControls
   {
     "monobob.*"
     {
-      nSurfaceLayers        4;
+      nSurfaceLayers        6;
     }
   }
 
