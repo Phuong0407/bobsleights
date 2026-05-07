@@ -10,4 +10,4 @@ checkMesh
 
 foamToVTK -faceSet skewFaces
 
-
+foamToVTK -surfaceFields

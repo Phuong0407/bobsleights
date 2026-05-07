@@ -17,7 +17,7 @@ FoamFile
 monobob.stl
 {
   extractionMethod     extractFromSurface;
-  includedAngle        150;
+  includedAngle        135;
 
   subsetFeatures
   {

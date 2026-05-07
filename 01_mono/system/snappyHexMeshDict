@@ -62,6 +62,13 @@ geometry
     min  (-5 -2.5 -0.05);
     max  (20  2.5   0.1);
   }
+
+  badregion
+  {
+    type searchableBox;
+    min  (0.3 -0.3 0.2);
+    max  (0.5 -0.1 0.4);
+  }
 }
 
 castellatedMeshControls
@@ -97,15 +104,17 @@ castellatedMeshControls
 
   refinementRegions
   {
-    box1   { mode inside; levels ((1E15 6)); }
-    box2   { mode inside; levels ((1E15 6)); }
-    box3   { mode inside; levels ((1E15 5)); }
-    box4   { mode inside; levels ((1E15 5)); }
+    box1   { mode inside; levels ((1E15 5)); }
+    box2   { mode inside; levels ((1E15 5)); }
+    box3   { mode inside; levels ((1E15 4)); }
+    box4   { mode inside; levels ((1E15 4)); }
     box5   { mode inside; levels ((1E15 6)); }
     boxbot { mode inside; levels ((1E15 6)); }
+
+    badregion { mode inside; levels ((1e15 4)); }
   }
 
-  locationInMesh (3.0001 3.0001 0.43);
+  locationInMesh (5.00001 1.00001 1.00001);
 
   allowFreeStandingZoneFaces true;
 }
@@ -130,21 +139,21 @@ addLayersControls
   {
     "monobob.*"
     {
-      nSurfaceLayers 6;
+      nSurfaceLayers        6;
     }
   }
 
   expansionRatio            1.2;
   firstLayerThickness       0.0015;
   minThickness              0.0005;
-  nGrow                     0;
-  featureAngle              60;
+  nGrow                     2;
+  featureAngle              40;
   slipFeatureAngle          30;
-  nRelaxIter                3;
-  nSmoothSurfaceNormals     1;
+  nRelaxIter                8;
+  nSmoothSurfaceNormals     5;
   nSmoothNormals            3;
   nSmoothThickness          10;
-  maxFaceThicknessRatio     0.5;
+  maxFaceThicknessRatio     0.3;
   maxThicknessToMedialRatio 0.3;
   minMedialAxisAngle        90;
   nBufferCellsNoExtrude     0;
