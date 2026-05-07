@@ -3,6 +3,8 @@
 !.gitignore
 !README.md
 !**/0/**
+**/0/**.gz
+
 !**/system/**
 !**/constant/transportProperties
 !**/constant/turbulenceProperties
@@ -26,6 +28,7 @@
 processor*/
 
 postProcessing/
+VTK/
 **/*.vtk
 **/*.vtp
 **/*.vtu
@@ -40,3 +43,7 @@ log.*
 *.swp
 *~
 .DS_Store
+
+*.py
+**/*.py
+.ipynb_checkpoints/

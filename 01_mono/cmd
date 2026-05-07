@@ -7,6 +7,8 @@ mpirun -np 16 snappyHexMesh -parallel -overwrite
 reconstructParMesh -constant
 
 checkMesh
+checkMesh -writeAllFields
+foamToVTK
 
 foamToVTK -faceSet skewFaces
 

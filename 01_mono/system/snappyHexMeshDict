@@ -66,8 +66,8 @@ geometry
   badregion
   {
     type searchableBox;
-    min  (0.3 -0.3 0.2);
-    max  (0.5 -0.1 0.4);
+    min  (0.2 -0.3 0.2);
+    max  (0.8  0.3 0.6);
   }
 }
 
@@ -77,7 +77,7 @@ castellatedMeshControls
   maxGlobalCells      1000000;
   minRefinementCells  10;
   maxLoadUnbalance    0.10;
-  nCellsBetweenLevels 5;
+  nCellsBetweenLevels 8;
 
   features
   (
@@ -108,10 +108,10 @@ castellatedMeshControls
     box2   { mode inside; levels ((1E15 5)); }
     box3   { mode inside; levels ((1E15 4)); }
     box4   { mode inside; levels ((1E15 4)); }
-    box5   { mode inside; levels ((1E15 6)); }
-    boxbot { mode inside; levels ((1E15 6)); }
+    box5   { mode inside; levels ((1E15 5)); }
+    boxbot { mode inside; levels ((1E15 5)); }
 
-    badregion { mode inside; levels ((1e15 4)); }
+    badregion { mode inside; levels ((1e15 6)); }
   }
 
   locationInMesh (5.00001 1.00001 1.00001);
@@ -122,7 +122,7 @@ castellatedMeshControls
 snapControls
 {
   nSmoothPatch           10;
-  tolerance              2.0;
+  tolerance              1.0;
   nSolveIter             50;
   nRelaxIter             8;
   nFeatureSnapIter       10;
