@@ -7,46 +7,39 @@
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-  version          2.0;
-  format           ascii;
-  class            volVectorField;
-  object           U;
+  version            2.0;
+  format             ascii;
+  class              volVectorField;
+  object             U;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-dimensions          [0 1 -1 0 0 0 0];
+dimensions           [0 1 -1 0 0 0 0];
 
-internalField       uniform (13.889 0 0);
+internalField        uniform (13.889 0 0);
 
 boundaryField
 {
   inlet
   {
     type            fixedValue;
-    value           uniform (13.889 0 0);
+    value           $internalField;
   }
+
   outlet
   {
-    type            freestreamVelocity;
-    freestreamValue uniform (13.889 0 0);
-    value           uniform (13.889 0 0);
+    type            zeroGradient;
   }
-  top
-  {
-    type            freestreamVelocity;
-    freestreamValue uniform (13.889 0 0);
-    value           uniform (13.889 0 0);
-  }
+
   bottom
   {
     type            movingWallVelocity;
-    value           uniform (13.889 0 0);
+    value           $internalField;
   }
-  "(front|back)"
+
+  "(top|front|back)"
   {
-    type            freestreamVelocity;
-    freestreamValue uniform (13.889 0 0);
-    value           uniform (13.889 0 0);
+    type            symmetryPlane;
   }
 
   monobobGroup
