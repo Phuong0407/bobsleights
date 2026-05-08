@@ -14,19 +14,14 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-simulationType     LES;
+simulationType     RANS;
 
-LES
+RAS
 {
-  LESModel         SpalartAllmarasDDES;
-  SpalartAllmarasDDESCoeffs
-  {
-    useSigma       true;
-  }
-
-  delta            DeltaOmegaTilde;
-  DeltaOmegaTildeCoeffs
-  {
-  }
+  RASModel         SpalartAllmaras;
+  turbulence       on;
+  printCoeffs      on;
 }
+
+
 // ************************************************************************* //
