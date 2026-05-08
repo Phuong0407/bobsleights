@@ -39,7 +39,7 @@ echo  "|                              SNAPPY HEX MESH                           
 echo  "|                                                                            |" | tee -a $LOG
 echo "\\ ************************************************************************** /" | tee -a $LOG
 
-mpirun -np 20 snappyHexMesh -parallel -overwrite 2>&1 | tee -a $LOG
+mpirun -np 10 snappyHexMesh -parallel -overwrite 2>&1 | tee -a $LOG
 
 
 
