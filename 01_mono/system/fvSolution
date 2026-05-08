@@ -7,10 +7,10 @@
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-  version     2.0;
-  format      ascii;
-  class       dictionary;
-  object      fvSolution;
+  version            2.0;
+  format             ascii;
+  class              dictionary;
+  object             fvSolution;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -18,50 +18,57 @@ solvers
 {
   p
   {
-    solver          GAMG;
-    tolerance       1e-07;
-    relTol          0.01;
-    smoother        GaussSeidel;
+    solver           GAMG;
+    tolerance        1e-07;
+    relTol           0.01;
+    smoother         GaussSeidel;
   }
 
   pFinal
   {
     $p;
-    tolerance       1e-08;
-    relTol          0;
+    tolerance        1e-08;
+    relTol           0;
   }
 
   "(U|nuTilda)"
   {
-    solver          smoothSolver;
-    tolerance       1e-08;
-    relTol          0.1;
-    smoother        GaussSeidel;
+    solver           smoothSolver;
+    tolerance        1e-08;
+    relTol           0.1;
+    smoother         GaussSeidel;
   }
 
   "(U|nuTilda)Final"
   {
-    solver          smoothSolver;
-    tolerance       1e-08;
-    relTol          0;
-    smoother        GaussSeidel;
+    $U;
+    relTol           0;
   }
 }
 
-PIMPLE
+SIMPLE
 {
-  nOuterCorrectors          2;
-  nCorrectors               2;
   nNonOrthogonalCorrectors  0;
-  momentumPredictor         yes;
+  consisten                 yes;
+
+  residualControl
+  {
+    p                1e-5;
+    U                1e-6;
+    nuTilda          1e-6;
 }
 
 relaxationFactors
 {
+  fields
+  {
+    p                0.3;
+  }
+
   equations
   {
-    U               0.7;
-    nuTilda         0.7;
+    U                0.7;
+    nuTilda          0.5;
   }
 }
 

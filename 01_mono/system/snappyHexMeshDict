@@ -16,7 +16,7 @@ FoamFile
 
 castellatedMesh    true;
 snap               true;
-addLayers          false;
+addLayers          true;
 
 geometry
 {
@@ -73,8 +73,8 @@ geometry
 
 castellatedMeshControls
 {
-  maxLocalCells       10000000;
-  maxGlobalCells      100000000;
+  maxLocalCells       800000;
+  maxGlobalCells      5000000;
   minRefinementCells  10;
   maxLoadUnbalance    0.10;
   nCellsBetweenLevels 7;
@@ -83,7 +83,7 @@ castellatedMeshControls
   (
     {
       file "monobob.eMesh";
-      level 6;
+      level 4;
     }
   );
 
@@ -91,7 +91,7 @@ castellatedMeshControls
   {
     monobob
     {
-      level (6 6);
+      level (4 5);
       patchInfo
       {
         type wall;
@@ -104,14 +104,14 @@ castellatedMeshControls
 
   refinementRegions
   {
-    box1   { mode inside; levels ((1E15 5)); }
-    box2   { mode inside; levels ((1E15 5)); }
-    box3   { mode inside; levels ((1E15 4)); }
-    box4   { mode inside; levels ((1E15 4)); }
-    box5   { mode inside; levels ((1E15 5)); }
-    boxbot { mode inside; levels ((1E15 4)); }
+    box1   { mode inside; levels ((1E15 4)); }
+    box2   { mode inside; levels ((1E15 4)); }
+    box3   { mode inside; levels ((1E15 3)); }
+    box4   { mode inside; levels ((1E15 3)); }
+    box5   { mode inside; levels ((1E15 4)); }
+    boxbot { mode inside; levels ((1E15 3)); }
 
-    badregion { mode inside; levels ((1e15 6)); }
+    badregion { mode inside; levels ((1e15 5)); }
   }
 
   locationInMesh (5.00001 1.00001 1.00001);
