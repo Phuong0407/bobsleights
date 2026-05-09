@@ -39,7 +39,8 @@ echo  "|                              SNAPPY HEX MESH                           
 echo  "|                                                                            |" | tee -a $LOG
 echo "\\ ************************************************************************** /" | tee -a $LOG
 
-mpirun -np 10 snappyHexMesh -parallel -overwrite 2>&1 | tee -a $LOG
+NPROCS=$(foamDictionary system/decomposeParDict -entry numberOfSubdomains -value)
+mpirun -np $NPROCS snappyHexMesh -parallel -overwrite 2>&1 | tee -a $LOG
 
 
 

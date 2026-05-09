@@ -15,7 +15,7 @@ FoamFile
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 
-application          simpleFoam;
+application          pimpleFoam;
 
 startFrom            latestTime;
 
@@ -23,13 +23,17 @@ startTime            0;
 
 stopAt               endTime;
 
-endTime              10000;
+endTime              1.0;
 
-deltaT               1;
+deltaT               1e-4;
 
 writeControl         timeStep;
 
 writeInterval        100;
+
+adjustTimeStep       yes;
+
+maxCo                0.99;
 
 purgeWrite           0;
 
@@ -52,13 +56,25 @@ functions
     type             forces;
     libs             ("libforces.so");
 
-    patches          (monobobGroup);
+    patches          (monobob);
 
+    rho              rhoInf;
     rhoInf           1.225;
     CofR             (0 0 0);
+
     log              true;
     writeControl     timeStep;
     writeInterval    1;
+  }
+
+  yPlus
+  {
+    type             yPlus;
+    libs             ("libfieldFunctionObjects.so");
+ 
+    writeControl     timeStep;
+    writeInterval    1;
+    log              yes;
   }
 }
 

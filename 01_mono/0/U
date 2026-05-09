@@ -42,7 +42,7 @@ boundaryField
     type            symmetryPlane;
   }
 
-  monobobGroup
+  monobob
   {
     type            noSlip;
   }

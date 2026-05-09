@@ -18,57 +18,54 @@ solvers
 {
   p
   {
-    solver           GAMG;
-    tolerance        1e-07;
-    relTol           0.01;
-    smoother         GaussSeidel;
+    solver                 GAMG;
+    tolerance              1e-07;
+    relTol                 0.01;
+    smoother               GaussSeidel;
+    cacheAgglomeration     true;
+    nCellsInCoarsestLevel  20;
+    agglomerator           faceAreaPair;
+    mergeLevels            1;
   }
 
   pFinal
   {
     $p;
-    tolerance        1e-08;
-    relTol           0;
+    tolerance              1e-08;
+    relTol                 0;
   }
 
   "(U|nuTilda)"
   {
-    solver           smoothSolver;
-    tolerance        1e-08;
-    relTol           0.1;
-    smoother         GaussSeidel;
+    solver                 smoothSolver;
+    tolerance              1e-08;
+    relTol                 0.1;
+    smoother               symGaussSeidel;
   }
 
   "(U|nuTilda)Final"
   {
     $U;
-    relTol           0;
+    relTol                 0;
   }
 }
 
-SIMPLE
+PIMPLE
 {
-  nNonOrthogonalCorrectors  0;
-  consisten                 yes;
-
-  residualControl
-  {
-    p                1e-5;
-    U                1e-6;
-    nuTilda          1e-6;
+  momentumPredictor         yes;
+  nOuterCorrectors          2;
+  nCorrectors               2;
+  nNonOrthogonalCorrectors  1;
+  consistent                yes;
 }
 
 relaxationFactors
 {
-  fields
-  {
-    p                0.3;
-  }
-
   equations
   {
+    p                0.3;
     U                0.7;
-    nuTilda          0.5;
+    nuTilda          0.7;
   }
 }
 
@@ -76,5 +73,6 @@ cache
 {
   grad(U);
 }
+
 
 // ************************************************************************* //

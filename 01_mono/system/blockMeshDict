@@ -70,7 +70,7 @@ boundary
   }
   top
   {
-    type patch;
+    type symmetryPlane;
     faces
     (
       (8   9 13 12)
@@ -90,7 +90,7 @@ boundary
   }
   front
   {
-    type patch;
+    type symmetryPlane;
     faces
     (
       (0 1 9   8)
@@ -100,7 +100,7 @@ boundary
   }
   back
   {
-    type patch;
+    type symmetryPlane;
     faces
     (
       (4 12 13 5)
