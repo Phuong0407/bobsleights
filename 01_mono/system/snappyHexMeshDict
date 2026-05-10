@@ -16,7 +16,7 @@ FoamFile
 
 castellatedMesh    true;
 snap               true;
-addLayers          false;
+addLayers          true;
 
 geometry
 {
@@ -26,72 +26,42 @@ geometry
     name monobob;
   }
 
-  box1
-  {
-    type searchableBox;
-    min  (0.4  0.15 -0.2);
-    max  (1.35 0.45  0.3);
-  }
-  box2
-  {
-    type searchableBox;
-    min  (0.4  -0.45 -0.2);
-    max  (1.35 -0.15  0.3);
-  }
-  box3
-  {
-    type searchableBox;
-    min  (1.2  0.15 0.5);
-    max  (1.45 0.35 0.8);
-  }
-  box4
-  {
-    type searchableBox;
-    min  (1.2  -0.35 0.5);
-    max  (1.45 -0.15 0.8);
-  }
-  box5
-  {
-    type searchableBox;
-    min  (-1.5 -0.45 -0.2);
-    max  (-0.4  0.45 0.35);
-  }
   boxbot
   {
     type searchableBox;
-    min  (-5 -2.5 -0.05);
-    max  (20  2.5   0.1);
+    min  (-1.5 -0.5 -0.05);
+    max  ( 1.5  0.5  0.02);
   }
 
-  badregion
+  gearregion
   {
     type searchableBox;
-    min  (0.2 -0.3 0.2);
-    max  (0.4  0.2 0.5);
+    min  (-1.5 -0.15 -0.05);
+    max  ( 1.5  0.15  0.12);
   }
 }
 
 castellatedMeshControls
 {
   maxLocalCells       1200000;
-  maxGlobalCells      7000000;
+  maxGlobalCells      10000000;
   minRefinementCells  10;
   maxLoadUnbalance    0.10;
   nCellsBetweenLevels 5;
 
   features
   (
-//    {
-//      file "monobob.eMesh";
-//      level 4;
-//    }
+    {
+      file "monobob.eMesh";
+      level 4;
+    }
   );
 
   refinementSurfaces
   {
     monobob
     {
-      level (3 4);
+      level (4 4);
       patchInfo
       {
         type wall;
@@ -100,18 +70,12 @@ castellatedMeshControls
     }
   }
 
-  resolveFeatureAngle 45;
+  resolveFeatureAngle 30;
 
   refinementRegions
   {
-    box1   { mode inside; levels ((1E15 3)); }
-    box2   { mode inside; levels ((1E15 4)); }
-    box3   { mode inside; levels ((1E15 3)); }
-    box4   { mode inside; levels ((1E15 3)); }
-    box5   { mode inside; levels ((1E15 4)); }
-    boxbot { mode inside; levels ((1E15 3)); }
-
-    badregion { mode inside; levels ((1e15 5)); }
+    boxbot     { mode inside; levels ((1E15 2)); }
+    gearregion { mode inside; levels ((1e15 3)); }
   }
 
   locationInMesh (5.00001 1.00001 1.00001);
@@ -122,13 +86,13 @@ castellatedMeshControls
 snapControls
 {
   nSmoothPatch           5;
-  tolerance              1.2;
+  tolerance              2.0;
   nSolveIter             30;
-  nRelaxIter             5;
-  nFeatureSnapIter       3;
+  nRelaxIter             10;
+  nFeatureSnapIter       10;
   implicitFeatureSnap    true;
   explicitFeatureSnap    false;
-  multiRegionFeatureSnap false;
+  multiRegionFeatureSnap true;
 }
 
 addLayersControls
@@ -139,7 +103,7 @@ addLayersControls
   {
     "monobob.*"
     {
-      nSurfaceLayers        6;
+      nSurfaceLayers        4;
     }
   }
 
