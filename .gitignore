@@ -44,5 +44,4 @@ log.*
 *~
 .DS_Store
 
-**/*.py
 .ipynb_checkpoints/
