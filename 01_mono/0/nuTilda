@@ -17,7 +17,7 @@ FoamFile
 
 dimensions           [0 2 -1 0 0 0 0];
 
-internalField        uniform 4.5e-5;
+internalField        uniform 7.5e-5;
 
 boundaryField
 {
@@ -29,7 +29,9 @@ boundaryField
 
   outlet
   {
-    type             zeroGradient;
+    type             inletOutlet;
+    inletValue       $internalField;
+    value            $internalField;
   }
 
   bottom
@@ -40,7 +42,7 @@ boundaryField
 
   "(top|front|back)"
   {
-    type             symmetryPlane;
+    type             slip;
   }
 
   monobob
