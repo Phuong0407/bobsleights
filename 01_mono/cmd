@@ -11,5 +11,10 @@ checkMesh -writeAllFields
 foamToVTK
 
 foamToVTK -faceSet skewFaces
-
 foamToVTK -surfaceFields
+
+decomposePar -fields -time 0
+
+SOLVER=simpleFoam;
+NPROCS=$(foamDictionary system/decomposeParDict -entry numberOfSubdomains -value);
+mpirun -np "$NPROCS" "$SOLVER" -parallel 2>&1 | tee -a "log.${SOLVER}.$(date +%y-%m-%d_%H-%M-%S)"
