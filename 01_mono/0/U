@@ -22,28 +22,29 @@ boundaryField
 {
   inlet
   {
-    type            fixedValue;
-    value           $internalField;
+    type             fixedValue;
+    value            $internalField;
   }
 
   outlet
   {
-    type            zeroGradient;
+	  type		         inletOutlet;
+	  inletValue	     $internalField;
+	  value		         $internalField;
   }
 
   bottom
   {
-    type            movingWallVelocity;
-    value           $internalField;
+    type             noSlip;
   }
 
   "(top|front|back)"
   {
-    type            symmetryPlane;
+    type             slip;
   }
 
   monobob
   {
-    type            noSlip;
+    type             noSlip;
   }
 }

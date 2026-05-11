@@ -14,9 +14,21 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-#includeEtc "caseDicts/meshQualityDict"
+maxNonOrtho         75;
+maxBoundarySkewness 20;
+maxInternalSkewness 4;
 
-minFaceWeight 0.02;
+maxConcave          80;
+
+minVol              1e-13;
+minTetQuality       -1e+30;
+minTwist            0.02;
+minTriangleTwist    -1;
+
+minArea             -1;
+minDeterminant      0.001;
+minFaceWeight       0.05;
+minVolRatio         0.01;
 
 
 // ************************************************************************* //

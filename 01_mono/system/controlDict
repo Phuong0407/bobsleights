@@ -15,7 +15,7 @@ FoamFile
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 
-application          pimpleFoam;
+application          simpleFoam;
 
 startFrom            latestTime;
 
@@ -23,25 +23,21 @@ startTime            0;
 
 stopAt               endTime;
 
-endTime              1.0;
+endTime              10000;
 
-deltaT               1e-4;
+deltaT               1;
 
 writeControl         timeStep;
 
 writeInterval        100;
 
-adjustTimeStep       yes;
-
-maxCo                0.99;
-
-purgeWrite           0;
+purgeWrite           10;
 
 writeFormat          ascii;
 
 writePrecision       6;
 
-writeCompression     on;
+writeCompression     off;
 
 timeFormat           general;
 
@@ -71,11 +67,10 @@ functions
   {
     type             yPlus;
     libs             ("libfieldFunctionObjects.so");
- 
-    writeControl     timeStep;
-    writeInterval    1;
-    log              yes;
+    enabled true;
+    writeControl     outputTime;
   }
+  
 }
 
 

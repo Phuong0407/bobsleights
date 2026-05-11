@@ -5,23 +5,50 @@
 |   \\  /    A nd           | Author: Diep Thanh Phuong                       |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
+
 FoamFile
 {
-  version          2.0;
-  format           ascii;
-  class            dictionary;
-  object           blockMeshDict;
+  version            2.0;
+  format             ascii;
+  class              volScalarField;
+  object             omega;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-simulationType     RAS;
+dimensions           [0 0 -1 0 0 0 0];
+internalField        uniform 9000;
 
-RAS
+boundaryField
 {
-  RASModel         kOmegaSST; // SpalartAllmaras;
-  turbulence       on;
-  printCoeffs      on;
+  inlet
+  {
+    type             fixedValue;
+    value            $internalField;
+  }
+
+  outlet
+  {
+    type             zeroGradient;
+  }
+
+  bottom
+  {
+    type             omegaWallFunction;
+    value            uniform 500000;
+  }
+
+  "(top|front|back)"
+  {
+    type             slip;
+  }
+
+  monobob
+  {
+    type             omegaWallFunction;
+    value            uniform 500000;
+  }
 }
+
 
 
 // ************************************************************************* //

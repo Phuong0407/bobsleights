@@ -7,20 +7,18 @@
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-  version          2.0;
-  format           ascii;
-  class            dictionary;
-  object           blockMeshDict;
+  version            2.0;
+  format             ascii;
+  class              dictionary;
+  object             fvConstraints;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-simulationType     RAS;
-
-RAS
+limitU
 {
-  RASModel         kOmegaSST; // SpalartAllmaras;
-  turbulence       on;
-  printCoeffs      on;
+  type               limitVelocity;
+  selectionMode      all;
+  max                200;
 }
 
 

@@ -39,7 +39,7 @@ boundaryField
 
   "(top|front|back)"
   {
-    type             symmetryPlane;
+    type             slip;
   }
 
   monobob

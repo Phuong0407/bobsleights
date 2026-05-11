@@ -7,16 +7,16 @@
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-  version          2.0;
-  format           ascii;
-  class            dictionary;
-  object           snappyHexMeshDict;
+  version            2.0;
+  format             ascii;
+  class              dictionary;
+  object             snappyHexMeshDict;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-castellatedMesh    true;
-snap               true;
-addLayers          true;
+castellatedMesh      true;
+snap                 true;
+addLayers            true;
 
 geometry
 {
@@ -26,34 +26,45 @@ geometry
     name monobob;
   }
 
-  boxbot
+  wake
   {
     type searchableBox;
-    min  (-1.5 -0.5 -0.05);
-    max  ( 1.5  0.5  0.02);
+    min  (-1.5 -1.2  0.0);
+    max  ( 4.0  1.2  1.5);
   }
 
-  gearregion
+  separation
   {
     type searchableBox;
-    min  (-1.5 -0.15 -0.05);
-    max  ( 1.5  0.15  0.12);
+    min  (-2.0 -1.8  0.0);
+    max  ( 8.0  1.8  2.5);
+  }
+
+  body
+  {
+    type searchableBox;
+    min  (-1.5 -0.9  0.0);
+    max  ( 1.5  0.9  0.8);
   }
 }
 
 castellatedMeshControls
 {
-  maxLocalCells       1200000;
-  maxGlobalCells      10000000;
-  minRefinementCells  10;
-  maxLoadUnbalance    0.10;
-  nCellsBetweenLevels 5;
+  maxLocalCells               500000;
+  maxGlobalCells              10000000;
+  minRefinementCells          0;
+  nCellsBetweenLevels         5;
+  resolveFeatureAngle         30.0;
+  allowFreeStandingZoneFaces  true;
+  planarAngle                 30.0;
+  maxLoadUnbalance            0.10;
+  locationInMesh              (5.00001 1.00001 1.00001);
 
   features
   (
     {
       file "monobob.eMesh";
-      level 4;
+      level 6;
     }
   );
 
@@ -61,7 +72,7 @@ castellatedMeshControls
   {
     monobob
     {
-      level (4 4);
+      level (6 6);
       patchInfo
       {
         type wall;
@@ -74,54 +85,72 @@ castellatedMeshControls
 
   refinementRegions
   {
-    boxbot     { mode inside; levels ((1E15 2)); }
-    gearregion { mode inside; levels ((1e15 3)); }
+    wake       { mode inside; levels ((1E15 4)); }
+    separation { mode inside; levels ((1e15 3)); }
+    body       { mode inside; levels ((1e15 5)); }
   }
-
-  locationInMesh (5.00001 1.00001 1.00001);
-
-  allowFreeStandingZoneFaces true;
 }
 
 snapControls
 {
-  nSmoothPatch           5;
+  nSmoothPatch           3;
   tolerance              2.0;
   nSolveIter             30;
   nRelaxIter             10;
   nFeatureSnapIter       10;
-  implicitFeatureSnap    true;
-  explicitFeatureSnap    false;
-  multiRegionFeatureSnap true;
+  implicitFeatureSnap    false;
+  explicitFeatureSnap    true;
+  multiRegionFeatureSnap false;
 }
 
 addLayersControls
 {
-  relativeSizes true;
+  relativeSizes             false;
 
   layers
   {
     "monobob.*"
     {
-      nSurfaceLayers        4;
+      nSurfaceLayers        10;
+      firstLayerThickness   1.5e-5;
+      expansionRatio        1.2;
+      minThickness          5e-6;
+    }
+
+    bottom
+    {
+      nSurfaceLayers        8;
+      firstLayerThickness   2e-5;
+      expansionRatio        1.2;
+      minThickness          5e-6;
     }
   }
 
-  expansionRatio            1.2;
-  firstLayerThickness       0.0015;
-  minThickness              0.0005;
   nGrow                     2;
+
   featureAngle              45;
-  slipFeatureAngle          30;
-  nRelaxIter                8;
+
+  maxFaceThicknessRatio     0.3;
+
   nSmoothSurfaceNormals     5;
   nSmoothNormals            3;
   nSmoothThickness          10;
-  maxFaceThicknessRatio     0.3;
+
+  slipFeatureAngle          30.0;
+  nRelaxIter                5;
+
   maxThicknessToMedialRatio 0.3;
+  
   minMedialAxisAngle        90;
+  minMedianAxisAngle        90;
+
   nBufferCellsNoExtrude     0;
   nLayerIter                50;
+  nRelaxedIter              20;
+
+  expansionRatio            1.2;
+  firstLayerThickness       0.0002;
+  minThickness              5e-6;
 }
 
 meshQualityControls
@@ -129,6 +158,11 @@ meshQualityControls
   #include "meshQualityDict"
   nSmoothScale 4;
   errorReduction 0.75;
+
+  relaxed
+  {
+    maxNonOrtho 75;
+  }
 }
 
 writeFlags
@@ -138,7 +172,7 @@ writeFlags
   layerFields
 );
 
-mergeTolerance 1e-6;
+mergeTolerance 1.0E-6;
 
 
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //

@@ -18,39 +18,84 @@ solvers
 {
   p
   {
-    solver                 GAMG;
-    tolerance              1e-07;
-    relTol                 0.01;
-    smoother               GaussSeidel;
-    cacheAgglomeration     true;
-    nCellsInCoarsestLevel  20;
-    agglomerator           faceAreaPair;
-    mergeLevels            1;
+    solver                   PCG;
+    preconditioner
+    {
+      preconditioner         GAMG;
+      tolerance              1e-06;
+      relTol                 0.0;
+      nVcycles               2;
+      smoother               GaussSeidel;
+      nPreSweeps             0;
+      nPostSweeps            2;
+      nFinestSweeps          2;
+      cacheAgglomeration     false;
+      nCellsInCoarsestLevel  10;
+      agglomerator           faceAreaPair;
+      mergeLevels            1;
+    }
+    tolerance                1e-07;
+    relTol                   0.01;
+    minIter                  1;
   }
 
   pFinal
   {
     $p;
-    tolerance              1e-08;
-    relTol                 0;
+    tolerance                1e-08;
+    relTol                   0;
   }
 
-  "(U|nuTilda)"
+  U
   {
-    solver                 smoothSolver;
-    tolerance              1e-08;
-    relTol                 0.1;
-    smoother               symGaussSeidel;
+    solver                   PBiCGStab;
+    preconditioner           DILU;
+    tolerance                1e-06;
+    relTol                   0.01;
+    minIter                  1;
   }
 
-  "(U|nuTilda)Final"
+  k
   {
-    $U;
-    relTol                 0;
+    solver                   PBiCGStab;
+    preconditioner           DILU;
+    tolerance                1e-06;
+    relTol                   0.01;
+    minIter                  1;
+  }
+
+  omega
+  {
+    solver                   PBiCGStab;
+    preconditioner           DILU;
+    tolerance                1e-06;
+    relTol                   0.01;
+    minIter                  1;
+  }
+  
+  Phi
+  {
+    solver                   GAMG;
+    agglomerator             faceAreaPair;
+    mergeLevels              1;
+    cacheAgglomeration       true;
+    nCellsInCoarsestLevel    200;
+    tolerance                1e-6;
+    relTol                   0.01;
+    smoother                 GaussSeidel;
+    nPreSweeps               0;
+    nPostSweeps              2;
+    nFinestSweeps            2;
+    minIter                  1;
   }
 }
 
-PIMPLE
+potentialFlow
+{
+  nNonOrthogonalCorrectors 10;
+}
+
+SIMPLE
 {
   momentumPredictor         yes;
   nOuterCorrectors          2;
@@ -61,11 +106,31 @@ PIMPLE
 
 relaxationFactors
 {
+  consistent yes;
+  nNonOrthogonalCorrectors 2;
+
+  pRefCell                 0;
+  pRefValue                0;
+
+  residualControl
+  {
+     p 		                 1.0e-3;
+     U 		                 1.0e-3;
+     k 		                 1.0e-3;
+     omega 	               1.0e-3;
+  }
+}
+
+relaxationFactors
+{
+  fields
+  {
+	  ".*"                   0.7;
+  }
+
   equations
   {
-    p                0.3;
-    U                0.7;
-    nuTilda          0.7;
+	  ".*"                   0.7;
   }
 }
 
