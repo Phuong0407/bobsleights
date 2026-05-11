@@ -58,19 +58,23 @@ functions
     rhoInf           1.225;
     CofR             (0 0 0);
 
-    log              true;
+    log              yes;
+    timeStart        50;
     writeControl     timeStep;
-    writeInterval    1;
+    writeInterval    10;
+    log              yes;
   }
 
   yPlus
   {
     type             yPlus;
     libs             ("libfieldFunctionObjects.so");
-    enabled true;
-    writeControl     outputTime;
+    enabled          true;
+    timeStart        50;
+    writeControl     timeStep;
+    writeInterval    100;
+    log              yes;
   }
-  
 }
 
 

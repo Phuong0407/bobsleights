@@ -17,7 +17,7 @@ FoamFile
 
 dimensions           [0 2 -2 0 0 0 0];
 
-internalField        uniform 3.375;
+internalField        uniform 0.85;
 
 boundaryField
 {
@@ -35,7 +35,7 @@ boundaryField
   bottom
   {
     type             kqRWallFunction;
-    value            $intenralField;
+    value            $internalField;
   }
 
   "(top|front|back)"
@@ -46,7 +46,7 @@ boundaryField
   monobob
   {
     type             kqRWallFunction;
-    value            $intenralField;
+    value            $internalField;
   }
 }
 

@@ -16,7 +16,7 @@ FoamFile
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
 dimensions           [0 0 -1 0 0 0 0];
-internalField        uniform 9000;
+internalField        uniform 23;
 
 boundaryField
 {
@@ -34,7 +34,7 @@ boundaryField
   bottom
   {
     type             omegaWallFunction;
-    value            uniform 500000;
+    value            uniform 1E6;
   }
 
   "(top|front|back)"
@@ -45,7 +45,7 @@ boundaryField
   monobob
   {
     type             omegaWallFunction;
-    value            uniform 500000;
+    value            uniform 1E6;
   }
 }
 
