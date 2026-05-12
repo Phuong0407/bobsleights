@@ -112,17 +112,17 @@ addLayersControls
     "monobob.*"
     {
       nSurfaceLayers        10;
-      firstLayerThickness   1.5e-5;
-      expansionRatio        1.2;
-      minThickness          5e-6;
+      firstLayerThickness   5e-4;
+      expansionRatio        1.3;
+      minThickness          1e-4;
     }
 
     bottom
     {
       nSurfaceLayers        8;
-      firstLayerThickness   2e-5;
-      expansionRatio        1.2;
-      minThickness          5e-6;
+      firstLayerThickness   5e-5;
+      expansionRatio        1.3;
+      minThickness          1e-4;
     }
   }
 
@@ -140,17 +140,13 @@ addLayersControls
   nRelaxIter                5;
 
   maxThicknessToMedialRatio 0.3;
-  
+
   minMedialAxisAngle        90;
   minMedianAxisAngle        90;
 
   nBufferCellsNoExtrude     0;
   nLayerIter                50;
   nRelaxedIter              20;
-
-  expansionRatio            1.2;
-  firstLayerThickness       0.0002;
-  minThickness              5e-6;
 }
 
 meshQualityControls
