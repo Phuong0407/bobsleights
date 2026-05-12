@@ -7,10 +7,10 @@
 \*---------------------------------------------------------------------------*/
 FoamFile
 {
-  version            2.0;
-  format             ascii;
-  class              dictionary;
-  object             fvSolution;
+  version             2.0;
+  format              ascii;
+  class               dictionary;
+  object              fvSolution;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
@@ -23,7 +23,7 @@ solvers
     {
       preconditioner         GAMG;
       tolerance              1e-06;
-      relTol                 0.0;
+      relTol                 0;
       nVcycles               2;
       smoother               GaussSeidel;
       nPreSweeps             0;
@@ -55,24 +55,15 @@ solvers
     minIter                  1;
   }
 
-  k
+  nuTilda
   {
     solver                   PBiCGStab;
     preconditioner           DILU;
-    tolerance                1e-06;
+    tolerance                1e-6;
     relTol                   0.01;
     minIter                  1;
   }
 
-  omega
-  {
-    solver                   PBiCGStab;
-    preconditioner           DILU;
-    tolerance                1e-06;
-    relTol                   0.01;
-    minIter                  1;
-  }
-  
   Phi
   {
     solver                   GAMG;
@@ -92,32 +83,25 @@ solvers
 
 potentialFlow
 {
-  nNonOrthogonalCorrectors 10;
+  nNonOrthogonalCorrectors   10;
 }
 
 SIMPLE
 {
-  momentumPredictor         yes;
-  nOuterCorrectors          2;
-  nCorrectors               2;
-  nNonOrthogonalCorrectors  1;
-  consistent                yes;
-}
+  momentumPredictor          yes;
+  nOuterCorrectors           2;
+  nCorrectors                2;
+  nNonOrthogonalCorrectors   1;
+  consistent                 yes;
 
-relaxationFactors
-{
-  consistent yes;
-  nNonOrthogonalCorrectors 2;
-
-  pRefCell                 0;
-  pRefValue                0;
+  pRefCell                   0;
+  pRefValue                  0;
 
   residualControl
   {
-     p 		                 1.0e-3;
-     U 		                 1.0e-3;
-     k 		                 1.0e-3;
-     omega 	               1.0e-3;
+    p                        1e-3;
+    U                        1e-3;
+    nuTilda                  2e-3;
   }
 }
 
@@ -125,18 +109,19 @@ relaxationFactors
 {
   fields
   {
-	  ".*"                   0.7;
+    ".*"                     0.7;
   }
 
   equations
   {
-	  ".*"                   0.7;
+    ".*"                     0.7;
   }
 }
 
 cache
 {
   grad(U);
+  grad(nuTilda);
 }
 
 
