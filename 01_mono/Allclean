@@ -1,5 +1,5 @@
 #!/bin/bash
-rm -rf 0/*.gz
+rm -rf 0
 
 rm -rf constant/polyMesh
 rm -rf constant/extendedFeatureEdgeMesh
@@ -15,3 +15,5 @@ rm -rf *.vtu
 
 rm *log*
 rm *.foam
+
+rm -rf dynamicCode

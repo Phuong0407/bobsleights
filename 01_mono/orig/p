@@ -5,18 +5,48 @@
 |   \\  /    A nd           | Author: Diep Thanh Phuong                       |
 |    \\/     M anipulation  |                                                 |
 \*---------------------------------------------------------------------------*/
+
 FoamFile
 {
-  version          2.0;
-  format           ascii;
-  class            dictionary;
-  object           decomposeParDict;
+  version            2.0;
+  format             ascii;
+  class              volScalarField;
+  object             p;
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-numberOfSubdomains 20;
+dimensions           [0 2 -2 0 0 0 0];
 
-method             scotch;
+internalField        uniform 0;
+
+boundaryField
+{
+  inlet
+  {
+    type             zeroGradient;
+  }
+
+  outlet
+  {
+    type             fixedValue;
+    value            $internalField;
+  }
+
+  bottom
+  {
+    type             zeroGradient;
+  }
+
+  "(top|front|back)"
+  {
+    type             slip;
+  }
+
+  monobob
+  {
+    type             zeroGradient;
+  }
+}
 
 
 // ************************************************************************* //

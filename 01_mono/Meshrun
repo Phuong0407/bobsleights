@@ -2,6 +2,8 @@
 
 LOG="log.mesh.$(date +%F_%H-%M-%S)"
 
+cp -r orig 0
+
 echo "/ ************************************************************************** \\" | tee -a $LOG
 echo  "|                                                                            |" | tee -a $LOG
 echo  "|                                 BLOCK MESH                                 |" | tee -a $LOG
