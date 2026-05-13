@@ -62,7 +62,6 @@ functions
     timeStart        50;
     writeControl     timeStep;
     writeInterval    10;
-    log              yes;
   }
 
   yPlus
