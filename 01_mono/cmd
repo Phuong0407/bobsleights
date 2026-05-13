@@ -22,3 +22,11 @@ mpirun -np "$NPROCS" renumberMesh  -parallel -overwrite 2>&1 | tee -a "log.renum
 mpirun -np "$NPROCS" potentialFoam -parallel -writep    2>&1 | tee -a "log.potentialFoam.$(date +%y-%m-%d_%H-%M-%S)";
 mpirun -np "$NPROCS" "$SOLVER"     -parallel            2>&1 | tee -a "log.${SOLVER}.$(date +%y-%m-%d_%H-%M-%S)";
 
+
+
+
+
+surfaceTransformPoints          \
+-translate "(0 0 0.2)"          \
+geometry/monobob.stl            \
+constant/triSurface/monobob.stl
