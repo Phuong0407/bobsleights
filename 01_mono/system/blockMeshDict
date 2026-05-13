@@ -14,14 +14,14 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-scale    1;
+scale  1;
 
-xmin   -12;
-xmax    22;
-ymin    -2;
-ymax     2;
-zmin -0.01;
-zmax   6.5;
+xmin -12;
+xmax  22;
+ymin  -2;
+ymax   2;
+zmin   0;
+zmax 6.5;
 
 deltax 0.4;
 deltay 0.4;

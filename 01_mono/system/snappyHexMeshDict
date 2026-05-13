@@ -29,22 +29,22 @@ geometry
   wake
   {
     type searchableBox;
-    min  (-1.5 -1.2  0.0);
-    max  ( 4.0  1.2  1.2);
+    min  (-1.5 -1.2 0.0);
+    max  (10.0  1.2 2.0);
   }
 
   separation
   {
     type searchableBox;
-    min  (-2.0 -1.8  0.0);
-    max  ( 8.0  1.8  1.8);
+    min  (-2.0 -1.8 0.0);
+    max  ( 8.0  1.8 2.5);
   }
 
   body
   {
     type searchableBox;
-    min  (-1.5 -0.9  0.0);
-    max  ( 1.5  0.9  0.8);
+    min  (-1.5 -0.9 0.0);
+    max  ( 1.5  0.9 1.5);
   }
 }
 
@@ -53,7 +53,7 @@ castellatedMeshControls
   maxLocalCells               500000;
   maxGlobalCells              10000000;
   minRefinementCells          0;
-  nCellsBetweenLevels         5;
+  nCellsBetweenLevels         3;
   resolveFeatureAngle         30.0;
   allowFreeStandingZoneFaces  true;
   planarAngle                 30.0;
@@ -81,9 +81,18 @@ castellatedMeshControls
 
   refinementRegions
   {
-    wake       { mode inside; levels ((1E15 4)); }
-    separation { mode inside; levels ((1e15 3)); }
-    body       { mode inside; levels ((1e15 5)); }
+    wake       { mode inside; levels ((1E15 3)); }
+    separation { mode inside; levels ((1e15 2)); }
+    body 
+    {
+      mode distance;
+      levels
+      (
+        (0.03 5)
+        (0.10 4)
+        (0.30 3)
+      );
+    }
   }
 }
 
@@ -108,12 +117,12 @@ addLayersControls
 
     "monobob.*"
     {
-      nSurfaceLayers        10;
+      nSurfaceLayers        5;
     }
 
     bottom
     {
-      nSurfaceLayers        5;
+      nSurfaceLayers        0;
     }
   }
 
@@ -132,8 +141,8 @@ addLayersControls
   nLayerIter                50;
   nRelaxedIter              20;
   expansionRatio            1.2;
-  finalLayerThickness       0.3;
-  minThickness              0.01;
+  finalLayerThickness       0.15;
+  minThickness              0.05;
 }
 
 meshQualityControls
