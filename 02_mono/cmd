@@ -1,0 +1,34 @@
+blockMesh
+
+decomposePar
+
+mpirun -np 16 snappyHexMesh -parallel -overwrite
+
+reconstructParMesh -constant
+
+checkMesh
+checkMesh -writeAllFields
+foamToVTK
+
+foamToVTK -faceSet skewFaces
+foamToVTK -faceSet nonOrthoFaces
+foamToVTK -surfaceFields
+
+decomposePar -fields -time 0
+
+export SOLVER=simpleFoam;
+NPROCS=$(foamDictionary system/decomposeParDict -entry numberOfSubdomains -value);
+mpirun -np "$NPROCS" renumberMesh  -parallel -overwrite 2>&1 | tee -a "log.renumber.$(date +%y-%m-%d_%H-%M-%S)";
+mpirun -np "$NPROCS" potentialFoam -parallel -writep    2>&1 | tee -a "log.potentialFoam.$(date +%y-%m-%d_%H-%M-%S)";
+mpirun -np "$NPROCS" "$SOLVER"     -parallel            2>&1 | tee -a "log.${SOLVER}.$(date +%y-%m-%d_%H-%M-%S)";
+
+
+
+
+
+mkdir constant/triSurface
+
+surfaceTransformPoints          \
+-translate "(0 0 0.2)"          \
+geometry/monobob.stl            \
+constant/triSurface/monobob.stl

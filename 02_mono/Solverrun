@@ -1,0 +1,22 @@
+#!/bin/bash
+
+SOLVER=${1:-simpleFoam};
+LOGSOLVER="log.${SOLVER}.$(date +%y-%m-%d_%H-%M-%S)"
+echo "/ ************************************************************************** \\" | tee -a "$LOGSOLVER"
+echo  "|                                                                            |" | tee -a "$LOGSOLVER"
+echo  "|                          DECOMPOSE PAR SOLVER                              |" | tee -a "$LOGSOLVER"
+echo  "|                                                                            |" | tee -a "$LOGSOLVER"
+echo "\\ ************************************************************************** /" | tee -a "$LOGSOLVER"
+decomposePar -force
+
+
+
+echo "/ ************************************************************************** \\" | tee -a "$LOGSOLVER"
+echo  "|                                                                            |" | tee -a "$LOGSOLVER"
+echo  "|                             RUN ${SOLVER}                                  |" | tee -a "$LOGSOLVER"
+echo  "|                                                                            |" | tee -a "$LOGSOLVER"
+echo "\\ ************************************************************************** /" | tee -a "$LOGSOLVER"
+NPROCS=$(foamDictionary system/decomposeParDict -entry numberOfSubdomains -value)
+mpirun -np "$NPROCS" renumberMesh  -parallel -overwrite 2>&1 | tee -a "$LOGSOLVER"
+mpirun -np "$NPROCS" potentialFoam -parallel -writep    2>&1 | tee -a "$LOGSOLVER"
+mpirun -np "$NPROCS" "$SOLVER"     -parallel            2>&1 | tee -a "$LOGSOLVER"

@@ -1,0 +1,76 @@
+#!/bin/bash
+
+LOGMESH="log.mesh.$(date +%F_%H-%M-%S)"
+
+cp -r orig 0
+
+echo "/ ************************************************************************** \\" | tee -a "$LOGMESH"
+echo  "|                                                                            |" | tee -a "$LOGMESH"
+echo  "|                                 BLOCK MESH                                 |" | tee -a "$LOGMESH"
+echo  "|                                                                            |" | tee -a "$LOGMESH"
+echo "\\ ************************************************************************** /" | tee -a "$LOGMESH"
+
+blockMesh 2>&1 | tee -a "$LOGMESH"
+
+
+
+echo "/ ************************************************************************** \\" | tee -a "$LOGMESH"
+echo  "|                                                                            |" | tee -a "$LOGMESH"
+echo  "|                          SURFACE FEATURE EXTRACT                           |" | tee -a "$LOGMESH"
+echo  "|                                                                            |" | tee -a "$LOGMESH"
+echo "\\ ************************************************************************** /" | tee -a "$LOGMESH"
+
+surfaceFeatureExtract 2>&1 | tee -a "$LOGMESH"
+
+
+
+echo "/ ************************************************************************** \\" | tee -a "$LOGMESH"
+echo  "|                                                                            |" | tee -a "$LOGMESH"
+echo  "|                               DECOMPOSE PAR                                |" | tee -a "$LOGMESH"
+echo  "|                                                                            |" | tee -a "$LOGMESH"
+echo "\\ ************************************************************************** /" | tee -a "$LOGMESH"
+
+decomposePar 2>&1 | tee -a "$LOGMESH"
+
+
+
+echo "/ ************************************************************************** \\" | tee -a "$LOGMESH"
+echo  "|                                                                            |" | tee -a "$LOGMESH"
+echo  "|                              SNAPPY HEX MESH                               |" | tee -a "$LOGMESH"
+echo  "|                                                                            |" | tee -a "$LOGMESH"
+echo "\\ ************************************************************************** /" | tee -a "$LOGMESH"
+
+NPROCS=$(foamDictionary system/decomposeParDict -entry numberOfSubdomains -value)
+mpirun -np $NPROCS snappyHexMesh -parallel -overwrite 2>&1 | tee -a "$LOGMESH"
+
+
+
+echo "/ ************************************************************************** \\" | tee -a "$LOGMESH"
+echo  "|                                                                            |" | tee -a "$LOGMESH"
+echo  "|                           RECONSTRUCT PAR MESH                             |" | tee -a "$LOGMESH"
+echo  "|                                                                            |" | tee -a "$LOGMESH"
+echo "\\ ************************************************************************** /" | tee -a "$LOGMESH"
+
+reconstructParMesh -constant 2>&1 | tee -a "$LOGMESH"
+
+
+
+SOLVER=${1:-simpleFoam};
+LOGSOLVER="log.${SOLVER}.$(date +%y-%m-%d_%H-%M-%S)"
+echo "/ ************************************************************************** \\" | tee -a "$LOGSOLVER"
+echo  "|                                                                            |" | tee -a "$LOGSOLVER"
+echo  "|                          DECOMPOSE PAR SOLVER                              |" | tee -a "$LOGSOLVER"
+echo  "|                                                                            |" | tee -a "$LOGSOLVER"
+echo "\\ ************************************************************************** /" | tee -a "$LOGSOLVER"
+decomposePar -force
+
+
+
+echo "/ ************************************************************************** \\" | tee -a "$LOGSOLVER"
+echo  "|                                                                            |" | tee -a "$LOGSOLVER"
+echo  "|                             RUN ${SOLVER}                                  |" | tee -a "$LOGSOLVER"
+echo  "|                                                                            |" | tee -a "$LOGSOLVER"
+echo "\\ ************************************************************************** /" | tee -a "$LOGSOLVER"
+mpirun -np "$NPROCS" renumberMesh  -parallel -overwrite 2>&1 | tee -a "$LOGSOLVER"
+mpirun -np "$NPROCS" potentialFoam -parallel -writep    2>&1 | tee -a "$LOGSOLVER"
+mpirun -np "$NPROCS" "$SOLVER"     -parallel            2>&1 | tee -a "$LOGSOLVER"

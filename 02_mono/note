@@ -1,0 +1,53 @@
+# ************************************************************************** #
+# Framework: Master 1 Internship                                             #
+# Project  : Bobsleigh                                                       #
+# Author   : DIEP Thanh Phuon                                                #
+# Module   : post-processing                                                 #
+# Function : y plus examination                                              #
+# ************************************************************************** #
+
+
+# 1, Y PLUS VALUE IN WALL PATCH
+# PURPOSE: CHECK MESH QUALITY AT BOUNDARY LAYER
+# For the turbulence model Spalart-Allmaras with wall functions:
+# - Object: 30 < y+ < 300 : ideal range 30-100
+# - Ground: 30 < y+ < 300
+# - AVOID :  5 < y+ < 30  : buffer layer, wrong force
+"$SOLVER" -postProcess -func yPlus -latestTime
+
+
+# 2. WALL SHEAR STRESS
+# PURPOSE: FRICTION VELOCITY FOR MESH REFINEMENT
+# u_tau = sqrt(tau_wall / rho)
+"$SOLVER" -postProcess -func wallShearStress -latestTime
+
+
+# 3. MESH QUALITY CHECK
+# PURPOSE: VERIFY LAYER ADDITION VERIFICAITON
+# Look inside the log:
+# - Patch face counts
+# - OK status on all checks
+# - No failed faces
+checkMesh -latestTime
+
+
+# 4. LAYER ADDITION SUCCESS CHECK
+# PURPOSE: LAYERS OF MESH AT BOUNDARY LAYER ADDITION PROCESS CHECK
+# If shows "Added 0 out of..." => layers FAILED, mesh needs fixing
+grep "Added.*cells" log.mesh*
+
+
+# 5. DETAILED LAYER ADDITION INFO
+# PURPOSE: FULL LAYER ADDITION SUMMARY
+grep -A 100 "Layer addition iteration" log.mesh* | tail -150
+tail -300 log.mesh* | grep -B 20 "Added.*cells"
+
+
+# 6. FIRST LAYER THICKNESS COMPUTATION
+# PURPOSE: GARUANGTEE y+ = 40 (CONSERVATIVE)
+# FORMULA: delta y = (yplus * mu) / u_tau
+
+
+# 7. REMESH WORKFLOW
+# OPERATION: CHANGE IN snappyHexMeshDict THE FOLLOWING ENTRY
+# firstLayerThickness

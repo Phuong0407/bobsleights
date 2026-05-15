@@ -1,0 +1,27 @@
+/*--------------------------------*- C++ -*----------------------------------*\
+| =========                 |                                                 |
+| \\      /  F ield         | OpenFOAM v2512                                  |
+|  \\    /   O peration     | Case: Monobobsleights                           |
+|   \\  /    A nd           | Author: Diep Thanh Phuong                       |
+|    \\/     M anipulation  |                                                 |
+\*---------------------------------------------------------------------------*/
+FoamFile
+{
+  version          2.0;
+  format           ascii;
+  class            dictionary;
+  object           blockMeshDict;
+}
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
+
+simulationType     RAS;
+
+RAS
+{
+  RASModel         SpalartAllmaras;
+  turbulence       on;
+  printCoeffs      on;
+}
+
+
+// ************************************************************************* //

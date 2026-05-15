@@ -1,0 +1,63 @@
+#!/bin/bash
+
+LOG="log.mesh.$(date +%F_%H-%M-%S)"
+
+cp -r orig 0
+
+echo "/ ************************************************************************** \\" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo  "|                                 BLOCK MESH                                 |" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo "\\ ************************************************************************** /" | tee -a $LOG
+
+blockMesh 2>&1 | tee -a $LOG
+
+
+
+echo "/ ************************************************************************** \\" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo  "|                          SURFACE FEATURE EXTRACT                           |" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo "\\ ************************************************************************** /" | tee -a $LOG
+
+surfaceFeatureExtract 2>&1 | tee -a $LOG
+
+
+
+
+echo "/ ************************************************************************** \\" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo  "|                               DECOMPOSE PAR                                |" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo "\\ ************************************************************************** /" | tee -a $LOG
+
+decomposePar 2>&1 | tee -a $LOG
+
+
+
+echo "/ ************************************************************************** \\" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo  "|                              SNAPPY HEX MESH                               |" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo "\\ ************************************************************************** /" | tee -a $LOG
+
+NPROCS=$(foamDictionary system/decomposeParDict -entry numberOfSubdomains -value)
+mpirun -np $NPROCS snappyHexMesh -parallel -overwrite 2>&1 | tee -a $LOG
+
+
+
+echo "/ ************************************************************************** \\" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo  "|                           RECONSTRUCT PAR MESH                             |" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo "\\ ************************************************************************** /" | tee -a $LOG
+
+reconstructParMesh -constant 2>&1 | tee -a $LOG
+
+
+
+echo "/ ************************************************************************** \\" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo  "|                                CHECK MESH                                  |" | tee -a $LOG
+echo  "|                                                                            |" | tee -a $LOG
+echo "\\ ************************************************************************** /" | tee -a $LOG
