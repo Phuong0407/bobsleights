@@ -88,20 +88,16 @@ potentialFlow
 
 SIMPLE
 {
-  momentumPredictor          yes;
-  nOuterCorrectors           2;
-  nCorrectors                2;
-  nNonOrthogonalCorrectors   1;
   consistent                 yes;
-
+  nNonOrthogonalCorrectors   2;
   pRefCell                   0;
   pRefValue                  0;
 
   residualControl
   {
-    p                        1e-3;
-    U                        1e-3;
-    nuTilda                  2e-3;
+    p                        1e-4;
+    U                        1e-5;
+    nuTilda                  1e-5;
   }
 }
 
@@ -109,12 +105,13 @@ relaxationFactors
 {
   fields
   {
-    ".*"                     0.7;
+    p                        0.3;
   }
 
   equations
   {
-    ".*"                     0.7;
+    U                        0.7;
+    nuTilda                  0.5;
   }
 }
 

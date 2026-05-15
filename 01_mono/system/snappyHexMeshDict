@@ -26,39 +26,41 @@ geometry
     name monobob;
   }
 
-  wake
+  body
   {
     type searchableBox;
-    min  (-1.5 -1.2 0.0);
-    max  (10.0  1.2 2.0);
+    min  (-1.8 -0.7 0.0);
+    max  ( 1.8  0.7 1.5);
   }
 
   separation
   {
     type searchableBox;
-    min  (-2.0 -1.8 0.0);
-    max  ( 8.0  1.8 2.5);
+    min  (-2.5 -1.2 0.0);
+    max  ( 3.5  1.2 1.8);
   }
 
-  body
+  wake
   {
     type searchableBox;
-    min  (-1.5 -0.9 0.0);
-    max  ( 1.5  0.9 1.5);
+    min  (1.0  -1.5 0.0);
+    max  (10.0  1.5 2.0);
   }
 }
 
 castellatedMeshControls
 {
-  maxLocalCells               500000;
-  maxGlobalCells              10000000;
-  minRefinementCells          0;
-  nCellsBetweenLevels         3;
-  resolveFeatureAngle         30.0;
-  allowFreeStandingZoneFaces  true;
-  planarAngle                 30.0;
-  maxLoadUnbalance            0.10;
   locationInMesh              (5.00001 1.00001 1.00001);
+
+  maxLocalCells               600000;
+  maxGlobalCells              12000000;
+  minRefinementCells          0;
+  maxLoadUnbalance            0.1;
+  nCellsBetweenLevels         3;
+
+  resolveFeatureAngle         30;
+  allowFreeStandingZoneFaces  true;
+  planarAngle                 30;
 
   features
   (
@@ -72,25 +74,27 @@ castellatedMeshControls
   {
     monobob
     {
-      level (6 6);
-      patchInfo { type wall; }
+      level (5 6);
+      patchInfo
+      {
+        type wall;
+      }
     }
   }
 
-  resolveFeatureAngle 30;
-
   refinementRegions
   {
-    wake       { mode inside; levels ((1E15 3)); }
-    separation { mode inside; levels ((1e15 2)); }
+    wake       { mode inside; levels ((1E15 2)); }
+    separation { mode inside; levels ((1e15 4)); }
+
     body 
     {
       mode distance;
       levels
       (
-        (0.03 5)
-        (0.10 4)
-        (0.30 3)
+        (0.03 6)
+        (0.10 5)
+        (0.30 4)
       );
     }
   }
@@ -99,7 +103,7 @@ castellatedMeshControls
 snapControls
 {
   nSmoothPatch              5;
-  tolerance                 2.0;
+  tolerance                 2;
   nSolveIter                30;
   nRelaxIter                10;
   nFeatureSnapIter          10;
@@ -110,39 +114,42 @@ snapControls
 
 addLayersControls
 {
-  relativeSizes             true;
-
   layers
   {
-
     "monobob.*"
     {
-      nSurfaceLayers        5;
+      nSurfaceLayers        8;
     }
 
     bottom
     {
-      nSurfaceLayers        0;
+      nSurfaceLayers        5;
     }
   }
 
+  relativeSizes             false;
+  expansionRatio            1.2;
+  firstLayerThickness       0.001;
+  minThickness              0.0001;
   nGrow                     0;
-  featureAngle              70.0;
+
+  featureAngle              75;
   maxFaceThicknessRatio     0.5;
-  nSmoothSurfaceNormals     1;
-  nSmoothNormals            3;
+
+  nSmoothSurfaceNormals     2;
+  nSmoothNormals            5;
   nSmoothThickness          10;
-  slipFeatureAngle          30.0;
+  slipFeatureAngle          50;
+
   nRelaxIter                5;
+
   maxThicknessToMedialRatio 0.3;
-  minMedialAxisAngle        90;
-  minMedianAxisAngle        90;
+  minMedialAxisAngle        60;
+  minMedianAxisAngle        60;
   nBufferCellsNoExtrude     0;
+
   nLayerIter                50;
   nRelaxedIter              20;
-  expansionRatio            1.2;
-  finalLayerThickness       0.15;
-  minThickness              0.05;
 }
 
 meshQualityControls

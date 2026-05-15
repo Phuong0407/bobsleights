@@ -17,11 +17,11 @@ FoamFile
 scale  1;
 
 xmin -12;
-xmax  22;
-ymin  -2;
-ymax   2;
+xmax  28;
+ymin  -5;
+ymax   5;
 zmin   0;
-zmax 6.5;
+zmax  10;
 
 deltax 0.4;
 deltay 0.4;
@@ -79,7 +79,7 @@ boundary
 
   top
   {
-    type patch;
+    type symmetryPlane;
     faces
     (
       (4 5 6 7)
@@ -97,7 +97,7 @@ boundary
 
   front
   {
-    type patch;
+    type symmetryPlane;
     faces
     (
       (0 1 5 4)
@@ -105,7 +105,7 @@ boundary
   }
   back
   {
-    type patch;
+    type symmetryPlane;
     faces
     (
       (2 3 7 6)

@@ -26,6 +26,8 @@ mpirun -np "$NPROCS" "$SOLVER"     -parallel            2>&1 | tee -a "log.${SOL
 
 
 
+mkdir constant/triSurface
+
 surfaceTransformPoints          \
 -translate "(0 0 0.2)"          \
 geometry/monobob.stl            \
