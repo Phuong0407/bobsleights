@@ -56,7 +56,7 @@ reconstructParMesh -constant 2>&1 | tee -a "$LOGMESH"
 
 
 SOLVER=${1:-simpleFoam};
-LOGSOLVER="log.${SOLVER}.$(date +%y-%m-%d_%H-%M-%S)"
+LOGSOLVER="log.${SOLVER}.$(date +%F_%H-%M-%S)"
 echo "/ ************************************************************************** \\" | tee -a "$LOGSOLVER"
 echo  "|                                                                            |" | tee -a "$LOGSOLVER"
 echo  "|                          DECOMPOSE PAR SOLVER                              |" | tee -a "$LOGSOLVER"
