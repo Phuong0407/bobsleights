@@ -1,0 +1,25 @@
+#!/bin/bash
+
+SOLVER=${1:-simpleFoam};
+
+LOGYPLUS="log.yplus.$(date +%F_%H-%M-%S)"
+
+echo "/ ************************************************************************** \\" | tee -a $LOGYPLUS
+echo  "|                                                                            |" | tee -a $LOGYPLUS
+echo  "|                               Y PLUS COMPUTE                               |" | tee -a $LOGYPLUS
+echo  "|                                                                            |" | tee -a $LOGYPLUS
+echo "\\ ************************************************************************** /" | tee -a $LOGYPLUS
+
+"$SOLVER" -postProcess -func yPlus -latestTime | tee -a $LOGYPLUS
+
+
+
+LOGWALLSHEARSTRESS="log.wallshearstress.$(date +%F_%H-%M-%S)"
+
+echo "/ ************************************************************************** \\" | tee -a $LOGWALLSHEARSTRESS
+echo  "|                                                                            |" | tee -a $LOGWALLSHEARSTRESS
+echo  "|                             WALL SHEAR STRESS                              |" | tee -a $LOGWALLSHEARSTRESS
+echo  "|                                                                            |" | tee -a $LOGWALLSHEARSTRESS
+echo "\\ ************************************************************************** /" | tee -a $LOGWALLSHEARSTRESS
+
+"$SOLVER" -postProcess -func wallShearStress -latestTime | tee -a $LOGWALLSHEARSTRESS
