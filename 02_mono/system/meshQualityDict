@@ -17,18 +17,18 @@ FoamFile
 maxNonOrtho         75;
 maxBoundarySkewness 20;
 maxInternalSkewness 4;
-
 maxConcave          80;
 
 minVol              1e-13;
-minTetQuality       -1e+30;
+minTetQuality       1e-15;
+minArea             -1;
 minTwist            0.02;
 minTriangleTwist    -1;
-
-minArea             -1;
 minDeterminant      0.001;
 minFaceWeight       0.05;
 minVolRatio         0.01;
+
+minFlatness         0.5;
 
 
 // ************************************************************************* //

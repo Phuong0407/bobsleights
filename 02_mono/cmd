@@ -7,7 +7,7 @@ mpirun -np 16 snappyHexMesh -parallel -overwrite
 reconstructParMesh -constant
 
 checkMesh
-checkMesh -writeAllFields
+checkMesh -writeAllFields 2>&1 | tee "log.checkmesh.$(date +%y-%m-%d_%H-%M-%S)"
 foamToVTK
 
 foamToVTK -faceSet skewFaces
@@ -15,6 +15,10 @@ foamToVTK -faceSet nonOrthoFaces
 foamToVTK -surfaceFields
 
 decomposePar -fields -time 0
+
+
+
+
 
 export SOLVER=simpleFoam;
 NPROCS=$(foamDictionary system/decomposeParDict -entry numberOfSubdomains -value);
@@ -27,8 +31,12 @@ mpirun -np "$NPROCS" "$SOLVER"     -parallel            2>&1 | tee -a "log.${SOL
 
 
 mkdir constant/triSurface
+cp    geometry/monobob.stl constant/triSurface/monobob.stl
 
-surfaceTransformPoints          \
--translate "(0 0 0.2)"          \
-geometry/monobob.stl            \
-constant/triSurface/monobob.stl
+surfaceTransformPoints -translate "(0 0 0.2)" geometry/monobob.stl constant/triSurface/monobob.stl
+
+
+
+
+
+

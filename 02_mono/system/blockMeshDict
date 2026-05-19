@@ -14,18 +14,18 @@ FoamFile
 }
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
-scale  1;
+scale   1;
 
-xmin -12;
-xmax  28;
-ymin  -5;
-ymax   5;
-zmin   0;
-zmax  10;
+xmin  -12;
+xmax   20;
+ymin -2.5;
+ymax  2.5;
+zmin    0;
+zmax  4.5;
 
-deltax 0.4;
-deltay 0.4;
-deltaz 0.4;
+deltax 0.2;
+deltay 0.2;
+deltaz 0.2;
 
 lx #calc "($xmax) - ($xmin)";
 ly #calc "($ymax) - ($ymin)";
@@ -38,6 +38,7 @@ zcells #calc "round(($lz)/($deltaz))";
 
 vertices
 (
+
   ($xmin  $ymin  $zmin)
   ($xmax  $ymin  $zmin)
   ($xmax  $ymax  $zmin)
@@ -46,11 +47,38 @@ vertices
   ($xmax  $ymin  $zmax)
   ($xmax  $ymax  $zmax)
   ($xmin  $ymax  $zmax)
+
 );
 
 blocks
 (
+
   hex (0 1 2 3 4 5 6 7) ($xcells $ycells $zcells) simpleGrading (1 1 1)
+/*
+  (
+    (
+      (0.2 0.28 0.65)
+      (0.2 0.34 1.00)
+      (0.4 0.28 2.00)
+      (0.2 0.10 4.00)
+    )
+
+    (
+      (0.3 0.25 0.35)
+      (0.4 0.50 1.00)
+      (0.3 0.25 2.85)
+    )
+
+    (
+      (0.04 0.08 0.25)
+      (0.09 0.28 1.00)
+      (0.10 0.26 1.00)
+      (0.12 0.16 2.50)
+      (0.65 0.22 8.00)
+    )
+  )
+*/
+
 );
 
 edges
@@ -59,6 +87,7 @@ edges
 
 boundary
 (
+
   inlet
   {
     type patch;
@@ -103,6 +132,7 @@ boundary
       (0 1 5 4)
     );
   }
+
   back
   {
     type symmetryPlane;
@@ -111,6 +141,7 @@ boundary
       (2 3 7 6)
     );
   }
+
 );
 
 mergePatchPairs

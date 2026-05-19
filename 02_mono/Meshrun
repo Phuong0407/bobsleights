@@ -52,7 +52,7 @@ echo  "|                           RECONSTRUCT PAR MESH                         
 echo  "|                                                                            |" | tee -a $LOG
 echo "\\ ************************************************************************** /" | tee -a $LOG
 
-reconstructParMesh -constant 2>&1 | tee -a $LOG
+# reconstructParMesh -constant 2>&1 | tee -a $LOG
 
 
 

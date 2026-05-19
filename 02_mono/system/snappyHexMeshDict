@@ -43,8 +43,54 @@ geometry
   wake
   {
     type searchableBox;
-    min  (1.0  -1.5 0.0);
-    max  (10.0  1.5 2.0);
+    min  (-7.5 -1.5 0.0);
+    max  (20.0  1.5 2.0);
+  }
+
+  rear1
+  {
+    type searchableBox;
+    min (-1.1 -0.4 0.45);
+    max (-0.4 -0.2 0.70);
+  }
+
+  rear2
+  {
+    type searchableBox;
+    min (0.48 -0.4 0.45);
+    max (1.36 -0.2 0.70);
+  }
+
+  rear3
+  {
+    type searchableBox;
+    min (-1.1 0.2 0.45);
+    max (-0.4 0.4 0.70);
+  }
+
+  rear4
+  {
+    type searchableBox;
+    min (0.48 0.2 0.45);
+    max (1.36 0.4 0.70);
+  }
+
+  athlete
+  {
+    type         searchableCone;
+    point1       (0.05 0.0 0.9);
+    point2       (0.85 0.0 0.9);
+    radius1      0.22;
+    innerRadius1 0.0;
+    radius2      0.27;
+    innerRadius2 0.0;
+  }
+
+  helmet
+  {
+    type   searchableSphere;
+    centre (0.725 0.0 1.2);
+    radius 0.2;
   }
 }
 
@@ -52,11 +98,11 @@ castellatedMeshControls
 {
   locationInMesh              (5.00001 1.00001 1.00001);
 
-  maxLocalCells               600000;
-  maxGlobalCells              12000000;
+  maxLocalCells               500000;
+  maxGlobalCells              10000000;
   minRefinementCells          0;
   maxLoadUnbalance            0.1;
-  nCellsBetweenLevels         3;
+  nCellsBetweenLevels         5;
 
   resolveFeatureAngle         30;
   allowFreeStandingZoneFaces  true;
@@ -66,7 +112,7 @@ castellatedMeshControls
   (
     {
       file "monobob.eMesh";
-      level 6;
+      level 2;
     }
   );
 
@@ -74,7 +120,7 @@ castellatedMeshControls
   {
     monobob
     {
-      level (5 6);
+      level (4 4);
       patchInfo
       {
         type wall;
@@ -85,25 +131,23 @@ castellatedMeshControls
   refinementRegions
   {
     wake       { mode inside; levels ((1E15 2)); }
-    separation { mode inside; levels ((1e15 4)); }
+    separation { mode inside; levels ((1e15 3)); }
+    body       { mode inside; levels ((1e15 4)); }
 
-    body 
-    {
-      mode distance;
-      levels
-      (
-        (0.03 6)
-        (0.10 5)
-        (0.30 4)
-      );
-    }
+    rear1      { mode inside; levels ((1e15 5)); }
+    rear2      { mode inside; levels ((1e15 5)); }
+    rear3      { mode inside; levels ((1e15 5)); }
+    rear4      { mode inside; levels ((1e15 5)); }
+
+    athlete    { mode inside; levels ((1e15 5)); }
+    helmet     { mode inside; levels ((1e15 5)); }
   }
 }
 
 snapControls
 {
-  nSmoothPatch              5;
-  tolerance                 2;
+  nSmoothPatch              10;
+  tolerance                 1.0;
   nSolveIter                30;
   nRelaxIter                10;
   nFeatureSnapIter          10;
@@ -118,28 +162,28 @@ addLayersControls
   {
     "monobob.*"
     {
-      nSurfaceLayers        8;
+      nSurfaceLayers        2;
     }
 
     bottom
     {
-      nSurfaceLayers        5;
+      nSurfaceLayers        0;
     }
   }
 
   relativeSizes             false;
-  expansionRatio            1.2;
-  firstLayerThickness       0.001;
-  minThickness              0.0001;
+  expansionRatio            1.15;
+  firstLayerThickness       0.003;
+  minThickness              0.001;
   nGrow                     0;
 
   featureAngle              75;
   maxFaceThicknessRatio     0.5;
 
-  nSmoothSurfaceNormals     2;
-  nSmoothNormals            5;
+  nSmoothSurfaceNormals     1;
+  nSmoothNormals            3;
   nSmoothThickness          10;
-  slipFeatureAngle          50;
+  slipFeatureAngle          30;
 
   nRelaxIter                5;
 
@@ -156,9 +200,12 @@ meshQualityControls
 {
   #include                  "meshQualityDict"
   nSmoothScale              6;
-  errorReduction            0.85;
+  errorReduction            0.75;
 
-  relaxed { maxNonOrtho     75; }
+  relaxed
+  {
+    maxNonOrtho             75;
+  }
 }
 
 writeFlags

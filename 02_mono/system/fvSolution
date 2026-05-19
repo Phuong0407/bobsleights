@@ -34,7 +34,7 @@ solvers
       agglomerator           faceAreaPair;
       mergeLevels            1;
     }
-    tolerance                1e-07;
+    tolerance                1e-06;
     relTol                   0.01;
     minIter                  1;
   }
@@ -55,7 +55,7 @@ solvers
     minIter                  1;
   }
 
-  nuTilda
+  "(nuTilda|k|omega)"
   {
     solver                   PBiCGStab;
     preconditioner           DILU;
@@ -95,9 +95,11 @@ SIMPLE
 
   residualControl
   {
-    p                        1e-4;
-    U                        1e-5;
-    nuTilda                  1e-5;
+    p                        1e-3;
+    U                        1e-3;
+    nuTilda                  1e-3;
+    k                        1e-3;
+    omega                    1e-3;
   }
 }
 
@@ -111,7 +113,9 @@ relaxationFactors
   equations
   {
     U                        0.7;
-    nuTilda                  0.5;
+    nuTilda                  0.7;
+    k                        0.7;
+    omega                    0.7;
   }
 }
 
